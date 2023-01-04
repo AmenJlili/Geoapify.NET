@@ -61,7 +61,7 @@ namespace Geoapify.NET.WPF
             this.PropertyChanged += WindowViewModel_PropertyChanged;
         }
 
-        private void WindowViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private async void WindowViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
 
             if (e.PropertyName == nameof(Query))
@@ -72,7 +72,7 @@ namespace Geoapify.NET.WPF
                 if (string.IsNullOrWhiteSpace(Query))
                     Addresses.Clear();
 
-                var addresses = AutocompleteHelper.GetAddress(query);
+                var addresses = await AutocompleteHelper.GetAddressAsync(query);
 
                 if (addresses != null)
                 {

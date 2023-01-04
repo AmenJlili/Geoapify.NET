@@ -10,8 +10,13 @@ namespace Geoapify.NET
 {
     public class AutocompleteHelper
     {
-      
-        public static Address[] GetAddress(string address, string apiKey = "")
+
+        public static Task<Address[]> GetAddressAsync(string address, string apiKey = "")
+        {
+            return Task.Run<Address[]>(() => { return GetAddress(address, apiKey); });
+        }
+
+            public static Address[] GetAddress(string address, string apiKey = "")
         {
             var client = new RestClient("https://api.geoapify.com/v1/geocode/autocomplete?filter=countrycode:us&text=" + address + "&apiKey=" + apiKey);
             client.Timeout = 10000;
