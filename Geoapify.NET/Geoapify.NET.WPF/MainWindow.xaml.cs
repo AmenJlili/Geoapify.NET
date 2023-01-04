@@ -35,6 +35,13 @@ namespace Geoapify.NET.WPF
     public class WindowViewModel : BindableBase
     {
 
+        private bool needsOpen = false;
+        public bool NeedsOpen
+        {
+            get { return needsOpen; }
+            set { SetProperty(ref needsOpen, value); }
+        }
+
         private ObservableCollection<Address> addresses = new ObservableCollection<Address>();
         public ObservableCollection<Address> Addresses
         {
@@ -42,7 +49,12 @@ namespace Geoapify.NET.WPF
             set { SetProperty(ref addresses, value); }
         }
 
-        public Geoapify.NET.Address SelectedAddress { get; set; }
+        private Address selectedAddress;
+        public Address SelectedAddress
+        {
+            get { return selectedAddress; }
+            set { SetProperty(ref selectedAddress, value); }
+        }
 
         private string query;
         public string Query
@@ -61,9 +73,13 @@ namespace Geoapify.NET.WPF
         public WindowViewModel()
         {
 
+            // add the license file to the solution and add the license key to it
             apikey = System.IO.File.ReadAllText("license.txt");
             this.PropertyChanged += WindowViewModel_PropertyChanged;
+           
         }
+
+        
 
         string apikey;
 
@@ -100,6 +116,9 @@ namespace Geoapify.NET.WPF
 
               
             }
+
+            if (this.IsBusy == false)
+                NeedsOpen = this.Addresses.Count == 0 ? false : true;
         }
     }
 }

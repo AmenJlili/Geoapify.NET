@@ -10,7 +10,30 @@
         <BooleanToVisibilityConverter x:Key="Visibility"/>
     </Window.Resources>
         <Grid>
-        <ProgressBar Height="30" IsIndeterminate="True" Visibility="{Binding IsBusy,Converter={StaticResource Visibility}}" />
-        <ComboBox Height="30" Opacity="0.5" IsEditable="True" Text="{Binding Query, Delay=200}" ItemsSource="{Binding Addresses}"/>
-    </Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Vertical" Margin="5">
+            <TextBlock Text="address picker:"/>
+            <Grid>
+                <ProgressBar Height="30" Opacity="0.5" IsIndeterminate="True" Visibility="{Binding IsBusy,Converter={StaticResource Visibility}}" />
+
+                <ComboBox IsDropDownOpen="{Binding NeedsOpen}" Height="30" SelectedItem="{Binding SelectedAddress}" Opacity="0.8" IsEditable="True" Text="{Binding Query, Delay=200}" ItemsSource="{Binding Addresses}"/>
+          
+            </Grid>
+   
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Vertical">
+            <TextBlock Text="Street:"/>
+            <TextBox Margin="5" Text="{Binding SelectedAddress.address_line1}"/>
+            <TextBox Margin="5" Text="{Binding SelectedAddress.address_line2}"/>
+            <TextBlock Text="City:"/>
+            <TextBox Margin="5" Text="{Binding SelectedAddress.city}"/>
+            <TextBlock Text="State (Code):"/>
+            <TextBox Margin="5" Text="{Binding SelectedAddress.state_code}"/>
+            <TextBlock Text="Zip code:"/>
+            <TextBox Margin="5" Text="{Binding SelectedAddress.postcode}"/>
+        </StackPanel>
+        </Grid>
 </Window>
