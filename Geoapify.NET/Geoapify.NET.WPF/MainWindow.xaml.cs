@@ -26,6 +26,8 @@ namespace Geoapify.NET.WPF
         {
             this.DataContext = new WindowViewModel();
             InitializeComponent();
+
+            
         }
     }
 
@@ -49,7 +51,7 @@ namespace Geoapify.NET.WPF
             set { SetProperty(ref query, value); }
         }
 
-        private bool isBusy = true;
+        private bool isBusy = false;
         public bool IsBusy
         {
             get { return isBusy; }
@@ -58,21 +60,27 @@ namespace Geoapify.NET.WPF
 
         public WindowViewModel()
         {
+
+            apikey = System.IO.File.ReadAllText("license.txt");
             this.PropertyChanged += WindowViewModel_PropertyChanged;
         }
+
+        string apikey;
 
         private async void WindowViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
 
             if (e.PropertyName == nameof(Query))
             {
+                if (Query.EndsWith("United States of America")) 
+                    return;
 
                 IsBusy = true; 
 
                 if (string.IsNullOrWhiteSpace(Query))
                     Addresses.Clear();
 
-                var addresses = await AutocompleteHelper.GetAddressAsync(query);
+                var addresses = await AutocompleteHelper.GetAddressAsync(query, apikey);
 
                 if (addresses != null)
                 {
