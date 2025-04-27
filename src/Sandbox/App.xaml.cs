@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Navigation;
 
-namespace Geoapify.NET.WPF
+namespace Sandbox
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -17,8 +17,7 @@ namespace Geoapify.NET.WPF
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            var ret = Geoapify.NET.AutocompleteHelper.GetAddress("8940 University");
-
+           
             base.OnStartup(e);
         }
     }

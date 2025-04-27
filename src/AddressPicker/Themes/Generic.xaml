@@ -1,0 +1,46 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:BlueByte.Wpf.Controls">
+    <BooleanToVisibilityConverter x:Key="Visibility"/>
+    <local:SelectedToBoldConverter x:Key="SelectedToBoldConverter"/>
+    <Style TargetType="{x:Type local:AddressPicker}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="BorderBrush" Value="Gray" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:AddressPicker}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <StackPanel Orientation="Vertical">
+                                <Grid>
+                                    <ComboBox   x:Name="PART_ComboBox"  
+                                 Foreground="{TemplateBinding Foreground}"
+                                BorderThickness="0" Background="Transparent"  SelectedItem="{Binding SelectedAddress, RelativeSource={RelativeSource TemplatedParent}}" Opacity="0.8" IsEditable="True" Text="{Binding Query, Delay=500, RelativeSource={RelativeSource TemplatedParent},UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Addresses, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    <ProgressBar   Opacity="0.5" IsIndeterminate="True" Visibility="{Binding IsBusy, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource Visibility}}" />
+
+                                </Grid>
+                                <ItemsControl
+                                    Visibility="{Binding NeedsOpen, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource Visibility}}"
+                                    Background="Transparent" BorderThickness="0" ItemsSource="{Binding Addresses, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding }" FontWeight="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource SelectedToBoldConverter}}" Foreground="Gray"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                            
+
+                           
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
